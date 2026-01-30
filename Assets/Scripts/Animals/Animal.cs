@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ namespace ZooWorld.Animals
 
         public AnimalConfig Config => config;
         public AnimalFaction Faction => config.faction;
+        public event Action<Animal> Died;
+
+        private bool isDead;
 
         public Rigidbody Rb { get; private set; }
 
@@ -56,21 +60,23 @@ namespace ZooWorld.Animals
             else
             {
                 controller.SetMovement(
-                    new WanderMovement(
-                        Rb,
-                        bounds,
-                        Config.moveSpeed,
-                        Config.decisionInterval
-                    )
+                    new LinearMovement(
+                        Rb, 
+                        bounds, 
+                        Config.moveSpeed)
                 );
             }
 
         }
-
         public virtual void Die()
         {
+            if (isDead) return;
+            isDead = true;
+
+            Died?.Invoke(this);
             Destroy(gameObject);
         }
+
     }
 }
 
