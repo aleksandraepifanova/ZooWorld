@@ -42,14 +42,29 @@ namespace ZooWorld.Animals
                 return;
             }
 
-            controller.SetMovement(
-                new WanderMovement(
-                    Rb,
-                    bounds,
-                    Config.moveSpeed,
-                    Config.decisionInterval
-                )
-            );
+            if (Faction == AnimalFaction.Prey)
+            {
+                controller.SetMovement(
+                    new JumpMovement(
+                        Rb,
+                        bounds,
+                        Config.moveSpeed,       
+                        Config.decisionInterval  
+                    )
+                );
+            }
+            else
+            {
+                controller.SetMovement(
+                    new WanderMovement(
+                        Rb,
+                        bounds,
+                        Config.moveSpeed,
+                        Config.decisionInterval
+                    )
+                );
+            }
+
         }
 
         public virtual void Die()
