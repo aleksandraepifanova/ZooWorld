@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ZooWorld.World;
+using ZooWorld.Game;
 
 
 namespace ZooWorld.Animals
@@ -75,6 +76,7 @@ namespace ZooWorld.Animals
             isDead = true;
 
             Died?.Invoke(this);
+            GameController.Instance?.Stats?.RegisterDeath(Faction);
             Destroy(gameObject);
         }
 
