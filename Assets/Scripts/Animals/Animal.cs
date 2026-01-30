@@ -16,6 +16,7 @@ namespace ZooWorld.Animals
         public AnimalConfig Config => config;
         public AnimalFaction Faction => config.faction;
         public event Action<Animal> Died;
+        public event Action Ate;
 
         private bool isDead;
 
@@ -75,6 +76,11 @@ namespace ZooWorld.Animals
 
             Died?.Invoke(this);
             Destroy(gameObject);
+        }
+
+        public void NotifyAte()
+        {
+            Ate?.Invoke();
         }
 
     }
