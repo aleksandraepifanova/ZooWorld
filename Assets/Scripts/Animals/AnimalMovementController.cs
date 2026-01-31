@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ZooWorld.World;
 
 
 namespace ZooWorld.Animals
@@ -10,6 +11,7 @@ namespace ZooWorld.Animals
     {
         private Animal animal;
         private IAnimalMovement movement;
+        private WorldBounds bounds;
 
         [Header("Plane Lock")]
         [SerializeField] private bool lockY = true;
@@ -19,6 +21,7 @@ namespace ZooWorld.Animals
         {
             animal = GetComponent<Animal>();
             fixedY = transform.position.y;
+            bounds = FindObjectOfType<WorldBounds>();
         }
 
         public void SetMovement(IAnimalMovement newMovement)
@@ -40,6 +43,10 @@ namespace ZooWorld.Animals
                 if (!Mathf.Approximately(p.y, fixedY))
                 {
                     p.y = fixedY;
+                    if (bounds != null)
+                    {
+                        p = bounds.ClampToXZ(p);
+                    }
                     animal.Rb.position = p;
                 }
             }
