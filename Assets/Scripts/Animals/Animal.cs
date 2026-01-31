@@ -38,45 +38,30 @@ namespace ZooWorld.Animals
 
         protected virtual void Start()
         {
+            if (config == null) { enabled = false; return; }
+
             var controller = GetComponent<AnimalMovementController>();
             if (controller == null) return;
 
-            var bounds = FindObjectOfType<WorldBounds>();
-            if (bounds == null)
+            var factory = Game.GameController.Instance?.Services?.Resolve<AnimalMovementFactory>();
+            if (factory == null)
             {
-                Debug.LogError("WorldBounds not found in scene");
+                Debug.LogError("AnimalMovementFactory not found");
                 return;
             }
 
-            if (Faction == AnimalFaction.Prey)
-            {
-                controller.SetMovement(
-                    new JumpMovement(
-                        Rb,
-                        bounds,
-                        Config.moveSpeed,       
-                        Config.decisionInterval  
-                    )
-                );
-            }
-            else
-            {
-                controller.SetMovement(
-                    new LinearMovement(
-                        Rb, 
-                        bounds, 
-                        Config.moveSpeed)
-                );
-            }
-
+            var movement = factory.CreateFor(this);
+            controller.SetMovement(movement);
         }
+
         public virtual void Die()
         {
             if (isDead) return;
             isDead = true;
 
             Died?.Invoke(this);
-            GameController.Instance?.Stats?.RegisterDeath(Faction);
+            var stats = GameController.Instance?.Services?.Resolve<GameStats>();
+            stats?.RegisterDeath(Faction);
             Destroy(gameObject);
         }
 

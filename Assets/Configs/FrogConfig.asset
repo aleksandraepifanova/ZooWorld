@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalName: Frog
   faction: 0
+  movementKind: 2
   moveSpeed: 2
   decisionInterval: 1
   mass: 1
   prefab: {fileID: 0}
+  jumpDistance: 2
+  jumpInterval: 1

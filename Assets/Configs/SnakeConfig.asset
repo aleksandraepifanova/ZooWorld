@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalName: Snake
   faction: 1
+  movementKind: 1
   moveSpeed: 5
   decisionInterval: 1
   mass: 1
   prefab: {fileID: 0}
+  jumpDistance: 2
+  jumpInterval: 1

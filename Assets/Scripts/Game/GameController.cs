@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ZooWorld.Infrastructure;
+using ZooWorld.World;
+using ZooWorld.Spawning;
+using ZooWorld.Animals;
+
 
 namespace ZooWorld.Game
 {
@@ -9,7 +14,7 @@ namespace ZooWorld.Game
     {
         public static GameController Instance { get; private set; }
 
-        public GameStats Stats { get; private set; }
+        public ServiceContainer Services { get; private set; }
 
         private void Awake()
         {
@@ -22,7 +27,16 @@ namespace ZooWorld.Game
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            Stats = new GameStats();
+            Services = new ServiceContainer();
+
+            var bounds = FindObjectOfType<WorldBounds>();
+            Services.Register(bounds);
+
+            var stats = new GameStats();
+            Services.Register(stats);
+
+            var factory = new AnimalMovementFactory(Services);
+            Services.Register(factory);
         }
     }
 }

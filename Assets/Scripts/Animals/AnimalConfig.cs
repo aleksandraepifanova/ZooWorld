@@ -12,6 +12,7 @@ namespace ZooWorld.Animals
         public AnimalFaction faction;
 
         [Header("Movement")]
+        public AnimalMovementKind movementKind = AnimalMovementKind.Wander;
         [Min(0f)] public float moveSpeed = 2f;
         [Min(0f)] public float decisionInterval = 1f;
 
@@ -20,6 +21,10 @@ namespace ZooWorld.Animals
 
         [Header("Prefab")]
         public GameObject prefab;
+
+        [Header("Jump")]
+        [Min(0f)] public float jumpDistance = 2f;
+        [Min(0.01f)] public float jumpInterval = 1f;
     }
 }
 
