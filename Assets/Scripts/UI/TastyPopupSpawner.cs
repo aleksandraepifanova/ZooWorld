@@ -38,9 +38,9 @@ namespace ZooWorld.UI
             if (popupPrefab == null) return;
 
             var go = Instantiate(popupPrefab, transform);
-            go.transform.localPosition = localOffset;
+            var follower = go.AddComponent<TastyPopupFollower>();
 
-            Destroy(go, lifetime);
+            follower.Init(transform, localOffset, lifetime);
         }
     }
 }
